@@ -20,4 +20,22 @@ const resultAry = jsonObj.reduce((acc, elem) => {
 }, []);
 console.table(resultAry);
 
+/*
+// jsonObj의 gender별 인원.
+// Male: ['Hamilton','Freeman', ...]
+// Female: ['Yettie', 'Elane', ...]
+// Genderqueer: ['Urbano', 'Kelvin']
+// Agender: ['Sam','Hort']
+
+resultAry = jsonObj.reduce((acc, elem) => {
+  const key = elem['gender']; // 'Male', 'Female', 'Genderqueer', 'Agender'
+  if (!acc[key]) {
+    acc[key] = []; // {Male: [], Female: [], Genderqueer: []}
+  }
+  acc[key].push(elem.first_name);
+  return acc;
+}, {});
+console.table(resultAry);
+*/
+
 console.log('-----------------[node end]-----------------');
