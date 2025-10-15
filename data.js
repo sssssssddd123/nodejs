@@ -10,6 +10,10 @@ function sum(a, b) {
   return a + b;
 }
 
+function getStudentInfo() {
+  return ['홍길동', '김민식', '박충원', '홍영기'];
+}
+
 export { studentsAry, sum };
 
 // console.log('----------------[node start]----------------');
