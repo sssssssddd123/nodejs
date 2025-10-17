@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="number" id="num" placeholder="id" />
+    <br />
+    <input type="text" id="txt1" />
+    <br />
+    <input type="text" id="txt2" />
+    <br />
+    <button onclick="post_register()">등록(post 요청)</button>
+    <button onclick="put_modify()">수정(put 요청)</button>
+    <button onclick="delete_remove()">삭제(delete 요청)</button>
+
+    <script>
+      function post_register() {
+        let idNum = document.getElementById('num').value;
+        let htmlTitle = document.getElementById('txt1').value;
+        let htmlContent = document.getElementById('txt2').value;
+        if (idNum == '' || txt1 == '' || txt2 == '') {
+          console.log('빈 값 Error');
+          return;
+        }
+
+        // *중요*
+        // Restful API가 뭔지 개념을 정확하게 알자
+
+        // Resource(URL, URI) + Method(POST) -> Restful API
+        // http://localhost:3000/posts -> URL
+        // /posts -> URI
+        fetch('http://localhost:3000/posts', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: JSON.stringify({
+            id: idNum,
+            title: htmlTitle,
+            content: htmlContent,
+          }),
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            console.log(json);
+            alert('등록되었습니다.');
+          })
+          .catch((err) => console.log(err));
+      }
+
+      function put_modify() {
+        let idNum = document.getElementById('num').value;
+        let htmlTitle = document.getElementById('txt1').value;
+        let htmlContent = document.getElementById('txt2').value;
+        fetch(`http://localhost:3000/posts/${idNum}`, {
+          method: 'put',
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: JSON.stringify({
+            id: idNum,
+            title: htmlTitle,
+            content: htmlContent,
+          }),
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            console.log(json);
+            alert('수정되었습니다.');
+          })
+          .catch((err) => console.log(err));
+      }
+
+      function delete_remove() {
+        fetch('http://localhost:3000/posts/3', {
+          method: 'delete',
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            console.log(json);
+            alert('삭제되었습니다.');
+          })
+          .catch((err) => console.log(err));
+      }
+    </script>
+  </body>
+</html>
