@@ -6,6 +6,7 @@ const multer = require('multer');
 const customerRouter = require('./routes/customer');
 const productRouter = require('./routes/products');
 const boardRouter = require('./routes/board');
+const { buffer } = require('stream/consumers');
 
 // express를 사용한 서버 인스턴스
 const app = express();
@@ -34,20 +35,32 @@ const storage = multer.diskStorage({
     const originalName = Buffer.from(file.originalname, 'latin1').toString(
       'utf8'
     );
-    cb(null, Date.now() + '-' + originalName);
+    cb(null, Date.now() + '_' + originalName);
   },
 });
 
-// 숙제: 여라파일 업로드하는 로직 만들기
+// 숙제: 여러파일 업로드하는 로직 만들기
+const multiFileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = 'upload/files/';
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const fileName = Buffer.from(file.originalname, 'latin1').toString('utf-8');
+    cb(null, Date.now() + '_' + fileName);
+  },
+});
 
 // multer 객체 설정
-const upload = multer({ storage: storage });
+const upload = multer({ storage: multiFileStorage });
 
 // 서버 가동 함수
 // .listen(포트, 콜백 함수)
 app.listen(3000, () => {
-  console.clear();
-  console.log('[ server 가동 완료 | Port: 3000]');
+  console.log('[ server 가동 완료 | Port: 3000 ]');
 });
 
 // 정적 디렉토리 설정
@@ -95,9 +108,33 @@ app.get('/logout', (req, res) => {
 });
 
 // 파일 업로드 테스트
-app.post('/upload', upload.single('profile'), (req, res) => {
-  console.log(req.file);
-  res.send('파일 업로드 완료');
+// app.post('/upload', upload.single('profile'), (req, res) => {
+//   console.log(req.file);
+//   res.send('파일 업로드 완료');
+// });
+
+function uploadPromise(req, res) {
+  return new Promise((resolve, reject) => {
+    upload.array('profile', 5)(req, res, (err) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve();
+    });
+  });
+}
+
+app.post('/upload', async (req, res) => {
+  try {
+    await uploadPromise(req, res);
+    if (req.files.length == 0) {
+      res.send('업로드할 파일이 없습니다');
+      throw new Error('[ 업로드할 파일이 없습니다 ]');
+    }
+    res.send('파일 업로드 완료');
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // http://localhost:3000/hongkildong/90
@@ -134,28 +171,30 @@ let students = [
 //     <span>합격여부: ${data[0].score}</span>`);
 // });
 
-const data = fs.readFileSync((src = './public/test/user_info.txt'), 'utf-8');
-app.post('/test/login', (req, res) => {
-  const loginData = data
-    .split('\n')
-    .filter((item) => item.trim() != '')
-    .map((item) => {
-      const [id, pw, name] = item
-        .replace('\r', '')
-        .split(',')
-        .map((item2) => item2.trim());
-      return { userId: id, userPw: pw, userName: name };
-    });
-  // console.log(loginData);
-  console.log(req.body);
-  loginData.reduce((acc, elem) => {
-    if (elem.userId != req.body.userId) {
-      console.log(elem.userId);
-      console.log(req.body.userId);
-      res.send('아이디 틀림');
-      return;
-    }
-    return acc;
-  }, '');
-  res.send('반갑다');
-});
+if (false) {
+  const data = fs.readFileSync((src = './public/test/user_info.txt'), 'utf-8');
+  app.post('/test/login', (req, res) => {
+    const loginData = data
+      .split('\n')
+      .filter((item) => item.trim() != '')
+      .map((item) => {
+        const [id, pw, name] = item
+          .replace('\r', '')
+          .split(',')
+          .map((item2) => item2.trim());
+        return { userId: id, userPw: pw, userName: name };
+      });
+    // console.log(loginData);
+    console.log(req.body);
+    loginData.reduce((acc, elem) => {
+      if (elem.userId != req.body.userId) {
+        console.log(elem.userId);
+        console.log(req.body.userId);
+        res.send('아이디 틀림');
+        return;
+      }
+      return acc;
+    }, '');
+    res.send('반갑다');
+  });
+}
