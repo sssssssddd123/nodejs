@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>루트 경로입니다.</h3>
+    <p>Hello, World</p>
+    <input type="text" id="num" />
+    <button onclick="scoreCheck()">버튼</button>
+
+    <script>
+      async function scoreCheck() {
+        console.log('test');
+        const res = await fetch('http://192.168.0.45:5500/test/100');
+        console.log(res);
+      }
+    </script>
+  </body>
+</html>

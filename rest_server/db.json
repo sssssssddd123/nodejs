@@ -1,0 +1,36 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "Hello, World",
+      "content": "This is my first post!"
+    },
+    {
+      "id": "2",
+      "title": "Another Post",
+      "content": "Here's some more content"
+    },
+    {
+      "id": "4",
+      "title": "123123",
+      "content": "123123"
+    },
+    {
+      "id": "5",
+      "title": "12313",
+      "content": "123123123"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "postId": 1,
+      "content": "Grate post!"
+    },
+    {
+      "id": "2",
+      "postId": 1,
+      "content": "Thanks for sharing"
+    }
+  ]
+}

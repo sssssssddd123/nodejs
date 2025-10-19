@@ -1,3 +1,4 @@
 # 확장자가 txt, log인 파일은 commit 대상에서 제외
 *.txt
 *.log
+*.code-workspace
