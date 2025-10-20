@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="email.css" />
+  </head>
+  <body>
+    <h3>이메일 발송</h3>
+    <form action="transmitMail">
+      <label for="to">받는 사람 이메일</label><br />
+      <input type="email" id="to" name="to" value="gda521@daum.net" /><br />
+      <label for="title">제목</label><br />
+      <input type="text" id="title" name="title" value="제목이에요" /><br />
+      <label for="message">내용</label><br />
+      <textarea id="message" name="message">이건 내용</textarea>
+      <button type="submit">버튼</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,159 @@
+/* iOS 톤: 얇은 테두리, 부드러운 그림자, 라운드, 시스템 폰트 */
+:root {
+  --bg: #f6fff5; /* 아주 연한 연두 배경 */
+  --surface: #ffffff; /* 카드·입력 배경 */
+  --text: #0b1f10; /* 본문 텍스트 */
+  --muted: #5e6b62; /* 보조 텍스트 */
+  --border: #dfeee0; /* 은은한 테두리 */
+  --accent: #9be59f; /* 포커스/포인트 연두 */
+  --accent-strong: #6ad37a; /* 버튼 채움 색 */
+  --shadow: 0 10px 28px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --radius-lg: 16px;
+  --radius-md: 14px;
+  --radius-sm: 12px;
+  --gap: 14px;
+  --transition: 220ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Noto Sans', 'Apple SD Gothic Neo', 'Helvetica Neue', Arial, 'PingFang SC',
+    sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 타이틀 */
+h3 {
+  margin: 28px auto 10px;
+  max-width: 420px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+/* 폼 카드 */
+form {
+  max-width: 420px;
+  margin: 0 auto 40px;
+  padding: 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  backdrop-filter: saturate(120%) blur(2px);
+}
+
+/* 레이블 */
+label {
+  display: block;
+  margin: 8px 2px 6px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* 입력 공통 */
+input[type='email'],
+input[type='text'],
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 14px 14px;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition),
+    transform var(--transition);
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.02);
+}
+
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* 포커스 상태: iOS 스타일의 은은한 연두색 포커스 링 */
+input[type='email']:focus,
+input[type='text']:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 26%, transparent),
+    inset 0 1px 0 rgba(0, 0, 0, 0.02);
+  transform: translateY(-1px);
+}
+
+/* 간격 */
+input + br,
+label + br {
+  display: none;
+}
+input[type='email'],
+input[type='text'] {
+  margin-bottom: var(--gap);
+}
+textarea {
+  margin-bottom: calc(var(--gap) + 2px);
+}
+
+/* 버튼 */
+button[type='submit'] {
+  width: 100%;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0a3b0f;
+  background: #b3f2b6; /* 기존 #9be59f 대비 약 15% 밝게 */
+  box-shadow: 0 4px 10px rgba(179, 242, 182, 0.4);
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition),
+    filter var(--transition);
+}
+
+button[type='submit']:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(179, 242, 182, 0.35);
+}
+
+button[type='submit']:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 소형 화면 최적화 */
+@media (max-width: 480px) {
+  form {
+    padding: 16px;
+    border-radius: 14px;
+  }
+  h3 {
+    margin: 22px auto 8px;
+    padding: 0 4px;
+    font-size: 1.08rem;
+  }
+}
+
+/* 모션 최소화 접근성 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
