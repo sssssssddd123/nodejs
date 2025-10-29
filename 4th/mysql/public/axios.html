@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>반갑다 애송이</h3>
+
+    <script>
+      // 지정된 ID를 가진 유저에 대한 요청
+      axios
+        .get('customers')
+        .then(function (response) {
+          // 성공 핸들링
+          console.log(response);
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          // 에러 핸들링
+          console.log(error);
+        })
+        .finally(function () {
+          // 항상 실행되는 영역
+        });
+    </script>
+  </body>
+</html>

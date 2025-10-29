@@ -1,9 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const mysql = require('./sql/index');
 const nodemailer = require('nodemailer');
 
 const app = express();
-
+app.use(cors());
 app.use(express.static('public'));
 
 // 메일
@@ -92,9 +93,9 @@ app.get('/customers', async (req, res) => {
 });
 
 // MySQL customers db를 한 건만 불러옴
-app.get('/customer/:name', async (req, res) => {
-  const sql = `select * from customers where name = ?`;
-  const param = [req.params.name];
+app.get('/customer/:id', async (req, res) => {
+  const sql = `select * from customers where id = ?`;
+  const param = [req.params.id];
   let result = await mysql.queryExecute(sql, param);
   res.send(result);
 });
